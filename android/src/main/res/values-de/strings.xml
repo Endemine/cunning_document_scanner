@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="image_with_cropper">Originalbild mit Zuschnitt</string>
+    <string name="scanner_title">Dokumentenscanner</string>
+    <string name="retake_photo">Foto wiederholen</string>
+    <string name="accept_crop">Akzeptieren</string>
+    <string name="new_photo">Neues Foto</string>
+    <string name="scanning">Wird gescannt…</string>
+    <string name="error_camera">Fehler beim Öffnen der Kamera</string>
+    <string name="error_crop">Fehler beim Zuschneiden des Bildes</string>
+</resources>

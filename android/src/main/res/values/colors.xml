@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#000000</color>
-    <color name="done_button_inner_circle_color">#D0E4FF</color>
+    <color name="done_button_inner_circle_color">#FFD700</color>
+
+    <!-- WeTCG Dark/Gold Theme -->
+    <color name="wetcg_primary_background">#0F0F0F</color>
+    <color name="wetcg_secondary_background">#1A1A1A</color>
+    <color name="wetcg_accent">#FFD700</color>
+    <color name="wetcg_button_background">#FFD700</color>
+    <color name="wetcg_button_text">#000000</color>
+    <color name="wetcg_text_primary">#FFFFFF</color>
+    <color name="wetcg_text_secondary">#9CA3AF</color>
+    <color name="wetcg_toolbar_background">#000000</color>
 </resources>

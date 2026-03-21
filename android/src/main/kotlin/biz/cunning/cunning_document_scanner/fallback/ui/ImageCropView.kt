@@ -88,8 +88,8 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     private val imagePreviewMaxSizeInBytes = 100 * 1024 * 1024
 
     init {
-        // set cropper style
-        cropperLinesAndCornersStyles.color = Color.WHITE
+        // set cropper style (WeTCG gold)
+        cropperLinesAndCornersStyles.color = Color.parseColor("#FFD700")
         cropperLinesAndCornersStyles.style = Paint.Style.STROKE
         cropperLinesAndCornersStyles.strokeWidth = 3f
     }

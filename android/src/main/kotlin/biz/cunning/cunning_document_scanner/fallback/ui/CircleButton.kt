@@ -26,8 +26,8 @@ class CircleButton(
     private val ring = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        // set outer ring style
-        ring.color = Color.WHITE
+        // set outer ring style (WeTCG gold)
+        ring.color = Color.parseColor("#FFD700")
         ring.style = Paint.Style.STROKE
         ring.strokeWidth = resources.getDimension(R.dimen.small_button_ring_thickness)
     }

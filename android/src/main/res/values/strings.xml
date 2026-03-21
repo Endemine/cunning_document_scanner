@@ -1,3 +1,10 @@
 <resources>
     <string name="image_with_cropper">Original Image With Cropper</string>
+    <string name="scanner_title">Document Scanner</string>
+    <string name="retake_photo">Retake Photo</string>
+    <string name="accept_crop">Accept</string>
+    <string name="new_photo">New Photo</string>
+    <string name="scanning">Scanning…</string>
+    <string name="error_camera">Error opening camera</string>
+    <string name="error_crop">Error cropping image</string>
 </resources>
