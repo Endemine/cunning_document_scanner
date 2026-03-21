@@ -170,37 +170,17 @@ class CunningDocumentScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityA
      * add document scanner result handler and launch the document scanner
      */
     private fun startScan(noOfPages: Int, isGalleryImportAllowed: Boolean) {
-        val options = GmsDocumentScannerOptions.Builder()
-            .setGalleryImportAllowed(isGalleryImportAllowed)
-            .setPageLimit(noOfPages)
-            .setResultFormats(RESULT_FORMAT_JPEG)
-            .setScannerMode(SCANNER_MODE_FULL)
-            .build()
-        val scanner = GmsDocumentScanning.getClient(options)
-        scanner.getStartScanIntent(activity).addOnSuccessListener {
-            try {
-                // Use a custom request code for onActivityResult identification
-                activity.startIntentSenderForResult(it, START_DOCUMENT_ACTIVITY, null, 0, 0, 0)
-
-            } catch (e: IntentSender.SendIntentException) {
-                pendingResult?.error("ERROR", "Failed to start document scanner", null)
-            }
-        }.addOnFailureListener {
-            if (it is MlKitException) {
-                val intent = createDocumentScanIntent(noOfPages)
-                try {
-                    ActivityCompat.startActivityForResult(
-                        this.activity,
-                        intent,
-                        START_DOCUMENT_FB_ACTIVITY,
-                        null
-                    )
-                } catch (e: ActivityNotFoundException) {
-                    pendingResult?.error("ERROR", "FAILED TO START ACTIVITY", null)
-                }
-            } else {
-                pendingResult?.error("ERROR", "Failed to start document scanner Intent", null)
-            }
+        // Always use custom WeTCG-styled scanner (skip Google ML Kit system UI)
+        val intent = createDocumentScanIntent(noOfPages)
+        try {
+            ActivityCompat.startActivityForResult(
+                this.activity,
+                intent,
+                START_DOCUMENT_FB_ACTIVITY,
+                null
+            )
+        } catch (e: ActivityNotFoundException) {
+            pendingResult?.error("ERROR", "FAILED TO START ACTIVITY", null)
         }
     }
 
