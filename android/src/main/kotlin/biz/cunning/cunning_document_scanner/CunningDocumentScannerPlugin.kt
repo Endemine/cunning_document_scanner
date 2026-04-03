@@ -48,8 +48,9 @@ class CunningDocumentScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityA
         if (call.method == "getPictures") {
             val noOfPages = call.argument<Int>("noOfPages") ?: 50;
             val isGalleryImportAllowed = call.argument<Boolean>("isGalleryImportAllowed") ?: false;
+            val autoCapture = call.argument<Boolean>("autoCapture") ?: false;
             this.pendingResult = result
-            startScan(noOfPages, isGalleryImportAllowed)
+            startScan(noOfPages, isGalleryImportAllowed, autoCapture)
         } else {
             result.notImplemented()
         }
@@ -154,13 +155,15 @@ class CunningDocumentScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityA
     /**
      * create intent to launch document scanner and set custom options
      */
-    private fun createDocumentScanIntent(noOfPages: Int): Intent {
+    private fun createDocumentScanIntent(noOfPages: Int, autoCapture: Boolean = false): Intent {
         val documentScanIntent = Intent(activity, DocumentScannerActivity::class.java)
 
         documentScanIntent.putExtra(
             DocumentScannerExtra.EXTRA_MAX_NUM_DOCUMENTS,
             noOfPages
         )
+
+        documentScanIntent.putExtra("autoCapture", autoCapture)
 
         return documentScanIntent
     }
@@ -169,9 +172,9 @@ class CunningDocumentScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityA
     /**
      * add document scanner result handler and launch the document scanner
      */
-    private fun startScan(noOfPages: Int, isGalleryImportAllowed: Boolean) {
-        // Always use custom WeTCG-styled scanner (skip Google ML Kit system UI)
-        val intent = createDocumentScanIntent(noOfPages)
+    private fun startScan(noOfPages: Int, isGalleryImportAllowed: Boolean, autoCapture: Boolean = false) {
+        // Always use custom TCGrail-styled scanner (skip Google ML Kit system UI)
+        val intent = createDocumentScanIntent(noOfPages, autoCapture)
         try {
             ActivityCompat.startActivityForResult(
                 this.activity,

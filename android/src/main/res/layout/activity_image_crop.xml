@@ -4,14 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/wetcg_primary_background"
+    android:background="@color/tcgrail_bg"
     android:paddingVertical="@dimen/image_crop_view_vertical_padding"
     tools:context=".fallback.DocumentScannerActivity">
+
+    <!-- Top bar with TCGrail Scanner title -->
+    <TextView
+        android:id="@+id/top_bar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="TCGrail Scanner"
+        android:textColor="@color/tcgrail_gold"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:background="@color/tcgrail_dark_surface" />
 
     <biz.cunning.cunning_document_scanner.fallback.ui.ImageCropView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_crop_view_initial_height"
+        android:layout_below="@+id/top_bar_title"
         android:contentDescription="@string/image_with_cropper" />
 
     <LinearLayout
@@ -24,7 +39,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="@color/wetcg_secondary_background">
+        android:background="@color/tcgrail_dark_surface">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -38,7 +53,8 @@
                 android:layout_width="@dimen/small_button_diameter"
                 android:layout_height="@dimen/small_button_diameter"
                 android:stateListAnimator="@animator/button_grow_animation"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:tint="@color/tcgrail_gold" />
 
         </FrameLayout>
 
@@ -54,7 +70,8 @@
                 android:layout_height="@dimen/large_button_diameter"
                 android:background="@android:color/transparent"
                 android:stateListAnimator="@animator/button_grow_animation"
-                android:src="@drawable/ic_baseline_check_24" />
+                android:src="@drawable/ic_baseline_check_24"
+                android:tint="@color/tcgrail_bg" />
 
         </FrameLayout>
 
@@ -70,7 +87,8 @@
                 android:layout_width="@dimen/small_button_diameter"
                 android:layout_height="@dimen/small_button_diameter"
                 android:stateListAnimator="@animator/button_grow_animation"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:tint="@color/tcgrail_gold" />
 
         </FrameLayout>
 

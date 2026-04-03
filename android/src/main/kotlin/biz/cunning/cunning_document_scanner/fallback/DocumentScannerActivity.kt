@@ -44,6 +44,11 @@ class DocumentScannerActivity : AppCompatActivity() {
     private var croppedImageQuality = DefaultSetting.CROPPED_IMAGE_QUALITY
 
     /**
+     * @property autoCapture if true, skip crop/confirm step and return cropped image automatically
+     */
+    private var autoCapture = false
+
+    /**
      * @property cropperOffsetWhenCornersNotFound if we can't find document corners, we set
      * corners to image size with a slight margin
      */
@@ -106,6 +111,29 @@ class DocumentScannerActivity : AppCompatActivity() {
 
             document = Document(originalPhotoPath, photo.width, photo.height, corners)
 
+            // if autoCapture is enabled, skip the crop/confirm UI and return immediately
+            if (autoCapture) {
+                try {
+                    // set preview image bounds so coordinate mapping works
+                    imageView.setImagePreviewBounds(photo, screenWidth, screenHeight)
+                    imageView.setImage(photo)
+
+                    val cornersInImagePreviewCoordinates = corners
+                        .mapOriginalToPreviewImageCoordinates(
+                            imageView.imagePreviewBounds,
+                            imageView.imagePreviewBounds.height() / photo.height
+                        )
+                    imageView.setCropper(cornersInImagePreviewCoordinates)
+
+                    addSelectedCornersAndOriginalPhotoPathToDocuments()
+                    cropDocumentAndFinishIntent()
+                } catch (exception: Exception) {
+                    finishIntentWithError(
+                        "unable to auto-crop image: ${exception.message}"
+                    )
+                }
+                return@CameraUtil
+            }
 
             // user is allowed to move corners to make corrections
             try {
@@ -161,6 +189,9 @@ class DocumentScannerActivity : AppCompatActivity() {
         // doesn't see this until they finish taking a photo
         setContentView(R.layout.activity_image_crop)
         imageView = findViewById(R.id.image_view)
+
+        // read autoCapture flag from intent extras
+        autoCapture = intent.getBooleanExtra("autoCapture", false)
 
         try {
             // validate maxNumDocuments option, and update default if user sets it

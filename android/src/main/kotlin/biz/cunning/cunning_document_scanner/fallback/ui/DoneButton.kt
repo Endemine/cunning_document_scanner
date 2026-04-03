@@ -28,18 +28,18 @@ class DoneButton(
     private val ring = Paint(Paint.ANTI_ALIAS_FLAG)
 
     /**
-     * @property circle the button's inner circle
+     * @property circle the button's inner circle (gold background)
      */
     private val circle = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        // set outer ring style (WeTCG gold)
+        // set outer ring style (TCGrail gold)
         ring.color = Color.parseColor("#FFD700")
         ring.style = Paint.Style.STROKE
         ring.strokeWidth = resources.getDimension(R.dimen.large_button_ring_thickness)
 
-        // set inner circle style
-        circle.color = ContextCompat.getColor(context, R.color.done_button_inner_circle_color)
+        // set inner circle style (gold fill)
+        circle.color = ContextCompat.getColor(context, R.color.tcgrail_gold)
         circle.style = Paint.Style.FILL
     }
 
@@ -62,10 +62,10 @@ class DoneButton(
         // draw outer ring
         canvas.drawCircle(centerX, centerY, outerRadius, ring)
 
-        // draw inner circle
+        // draw inner circle (gold background)
         canvas.drawCircle(centerX, centerY, innerRadius, circle)
 
-        // draw check icon since it gets covered by inner circle
+        // draw check icon (dark icon on gold background)
         canvas.drawCheck(centerX, centerY, drawable)
     }
 }

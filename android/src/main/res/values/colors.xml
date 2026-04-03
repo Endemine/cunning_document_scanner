@@ -3,7 +3,13 @@
     <color name="black">#000000</color>
     <color name="done_button_inner_circle_color">#FFD700</color>
 
-    <!-- WeTCG Dark/Gold Theme -->
+    <!-- TCGrail Dark/Gold Theme -->
+    <color name="tcgrail_bg">#0F0F0F</color>
+    <color name="tcgrail_gold">#FFD700</color>
+    <color name="tcgrail_dark_surface">#1A1A1A</color>
+    <color name="tcgrail_retake_border">#CC4444</color>
+
+    <!-- Legacy aliases -->
     <color name="wetcg_primary_background">#0F0F0F</color>
     <color name="wetcg_secondary_background">#1A1A1A</color>
     <color name="wetcg_accent">#FFD700</color>

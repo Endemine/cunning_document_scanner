@@ -24,6 +24,7 @@ class CunningDocumentScanner {
   static Future<List<String>?> getPictures({
     int noOfPages = 100,
     bool isGalleryImportAllowed = false,
+    bool autoCapture = false,
     IosScannerOptions? iosScannerOptions,
   }) async {
     Map<Permission, PermissionStatus> statuses = await [
@@ -38,6 +39,7 @@ class CunningDocumentScanner {
     final List<dynamic>? pictures = await _channel.invokeMethod('getPictures', {
       'noOfPages': noOfPages,
       'isGalleryImportAllowed': isGalleryImportAllowed,
+      'autoCapture': autoCapture,
       if (iosScannerOptions != null)
         'iosScannerOptions': {
           'imageFormat': iosScannerOptions.imageFormat.name,
