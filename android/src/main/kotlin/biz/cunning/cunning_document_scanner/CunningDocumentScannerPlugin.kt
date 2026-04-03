@@ -173,17 +173,60 @@ class CunningDocumentScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityA
      * add document scanner result handler and launch the document scanner
      */
     private fun startScan(noOfPages: Int, isGalleryImportAllowed: Boolean, autoCapture: Boolean = false) {
-        // Always use custom WeTCG/TCGrail-styled scanner (skip Google ML Kit system UI)
-        val intent = createDocumentScanIntent(noOfPages, autoCapture)
+        if (autoCapture) {
+            // Auto-capture: use custom fallback scanner (instant crop, no confirm)
+            val intent = createDocumentScanIntent(noOfPages, autoCapture)
+            try {
+                ActivityCompat.startActivityForResult(
+                    this.activity,
+                    intent,
+                    START_DOCUMENT_FB_ACTIVITY,
+                    null
+                )
+            } catch (e: ActivityNotFoundException) {
+                pendingResult?.error("ERROR", "FAILED TO START ACTIVITY", null)
+            }
+            return
+        }
+
+        // Default: Google ML Kit document scanner (best quality, edge detection, auto-crop)
         try {
-            ActivityCompat.startActivityForResult(
-                this.activity,
-                intent,
-                START_DOCUMENT_FB_ACTIVITY,
-                null
-            )
-        } catch (e: ActivityNotFoundException) {
-            pendingResult?.error("ERROR", "FAILED TO START ACTIVITY", null)
+            val options = GmsDocumentScannerOptions.Builder()
+                .setGalleryImportAllowed(isGalleryImportAllowed)
+                .setPageLimit(noOfPages)
+                .setResultFormats(RESULT_FORMAT_JPEG)
+                .setScannerMode(SCANNER_MODE_FULL)
+                .build()
+            val scanner = GmsDocumentScanning.getClient(options)
+            scanner.getStartScanIntent(activity)
+                .addOnSuccessListener { intentSender: IntentSender ->
+                    try {
+                        ActivityCompat.startIntentSenderForResult(
+                            this.activity,
+                            intentSender,
+                            START_DOCUMENT_ACTIVITY,
+                            null, 0, 0, 0, null
+                        )
+                    } catch (e: IntentSender.SendIntentException) {
+                        pendingResult?.error("ERROR", "Failed to start ML Kit scanner: ${e.message}", null)
+                    }
+                }
+                .addOnFailureListener { _ ->
+                    // ML Kit not available — fall back to custom scanner
+                    val intent = createDocumentScanIntent(noOfPages, false)
+                    try {
+                        ActivityCompat.startActivityForResult(this.activity, intent, START_DOCUMENT_FB_ACTIVITY, null)
+                    } catch (ex: ActivityNotFoundException) {
+                        pendingResult?.error("ERROR", "FAILED TO START ACTIVITY", null)
+                    }
+                }
+        } catch (_: Exception) {
+            val intent = createDocumentScanIntent(noOfPages, false)
+            try {
+                ActivityCompat.startActivityForResult(this.activity, intent, START_DOCUMENT_FB_ACTIVITY, null)
+            } catch (ex: ActivityNotFoundException) {
+                pendingResult?.error("ERROR", "FAILED TO START ACTIVITY", null)
+            }
         }
     }
 
